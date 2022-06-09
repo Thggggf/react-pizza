@@ -6,12 +6,15 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
 
+import { input, post, deletePost } from './redux/slices/filterSlice'
+import { RootState } from './redux/store'
 import { Header } from './Components/Header';
 import { Home } from "./pages/Home";
 import { NotFound } from './pages/NotFound';
-import {Cart} from "./pages/Cart"
-
+import { Cart } from "./pages/Cart"
+import { AppContext } from "./Context"
 
 
 
@@ -21,20 +24,23 @@ import "./scss/app.scss"
 
 
 function App() {
+  const [searchValue, setSearchValue] = React.useState("")
+
 
   return (
-    <div className="wrapper">
-      <Header />
-      <div className="content">
-        <div className="container">
+    <AppContext.Provider value={{ setSearchValue, searchValue }}>
+      <div className="wrapper">
+
+        <Header />
+        <div className="content">
           <Routes>
-            <Route path="/" exact element = {<Home/>}/>
-            <Route  path="*" exact element = {<NotFound/>} />
-            <Route  path="/cart.html" exact element = {<Cart/>} />
+            <Route path="/" exact element={<Home />} />
+            <Route path="*" exact element={<NotFound />} />
+            <Route path="/cart.html" exact element={<Cart />} />
           </Routes>
         </div>
       </div>
-    </div>
+    </AppContext.Provider>
   );
 }
 

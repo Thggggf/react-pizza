@@ -5,6 +5,10 @@
   &__label {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    @media(max-width: 820px){
+      margin-bottom: 15px;
+    }
     
 
     svg {

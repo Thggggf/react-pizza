@@ -6,7 +6,7 @@ export function Category({
   isActive
 }) {
   return <li 
-  onClick={onClick}
+  onClick={() => onClick(index)}
   className = { isActive ? "active" : ''}
   >{name}</li>
 }

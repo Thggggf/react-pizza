@@ -1,17 +1,20 @@
 import React from 'react'
 
-export function Sort() {
+export function Sort({
+  value,
+  onSortOption
+}) {
   const [open, setOpen] = React.useState(false)
-  const [selected, setSelected] = React.useState(0)
-  const options = ["популярности","цене", "алфавиту"]
-  const onOption = (id) =>{ 
+
+  const options = [{title:"популярные", type: 'rating'},{title: "дорогие", type: "price"}, {title: "дешёвые", type: "-price"}, {title: " По алфавиту (А-Я)", type: "-name"}, {title: "По алфавиту (Я-А)", type: "name"}]
+  const onOption = (type) =>{ 
     setOpen(false);
-    setSelected(id)
+    onSortOption(type)
   }
-  const sortOption = options[selected]
+  
   return (
     <div className="sort">
-    <div className="sort__label">
+    <div className="sort__label cu-p"  onClick={ () => setOpen(!open)}>
         <svg
             width="10"
             height="6"
@@ -25,9 +28,9 @@ export function Sort() {
                 fill="#2C2C2C"
             />
         </svg>
-        <b>Сортировка по:</b>
-        <span onClick={ () => setOpen(!open)}>
-          {sortOption}
+        <b>Сначало:</b>
+        <span>
+          {value.title}
         </span>
     </div>
     {
@@ -35,9 +38,9 @@ export function Sort() {
         <div className="sort__popup">
         <ul>
         {
-              options.map((optionName,optionId) => 
-              <li className={selected === optionId ? "active" : ""} onClick={() => onOption(optionId)} key = {optionName}>
-                {optionName}
+              options.map((obj, optionId) => 
+              <li className={obj.type === value.type ? "active" : ""} onClick={() => onOption(obj)} key = {obj.type}>
+                {obj.title}
               </li> )
             }
         </ul>
