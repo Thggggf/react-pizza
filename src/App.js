@@ -6,9 +6,8 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
 
-import { input, post, deletePost } from './redux/slices/filterSlice'
+
 import { RootState } from './redux/store'
 import { Header } from './Components/Header';
 import { Home } from "./pages/Home";

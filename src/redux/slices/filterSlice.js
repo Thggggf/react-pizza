@@ -1,23 +1,33 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
 
 
 
 const initialState = {
-  value: "",
-  posts: [],
-  count:0
-
+  categoryId: 0,
+  sort: {
+    name: "популярные",
+    type: "rating"
+  }
 }
 
-export const filterSlice = createSlice({
-  name: 'filter',
+const filterSlice = createSlice({
+  name: 'filters',
   initialState,
   reducers: {
-    
-  },
+    setCategoryId(state, action) {
+      state.categoryId = action.payload
+    },
+    setSort(state, action) {
+      state.sort = action.payload
+      console.log(state.sort)
+    }
+
+  }
+
 })
 
-// Action creators are generated for each case reducer function
-export const {} = filterSlice.actions
+
+export const {setCategoryId, setSort} = filterSlice.actions
+
 
 export default filterSlice.reducer
