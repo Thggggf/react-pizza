@@ -3,9 +3,16 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { setIsLoading } from '../redux/slices/homeStatesSlice';
+import {
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../redux/slices/filterSlice';
+
+import { fetchPizzas, selectPizzasData } from '../redux/slices/pizzasSlice';
 
 import { Card } from '../Components/Card';
 import { Categories } from '../Components/Categories';
@@ -19,50 +26,52 @@ import { options } from './../Components/Sort';
 export function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-  const { isLoading } = useSelector((state) => state.homeStates);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+
+  const { status, items } = useSelector(selectPizzasData);
   const isMounted = React.useRef(false);
-  const [items, setItems] = React.useState([]);
-  const { searchValue, setSearchValue } = React.useContext(AppContext);
-  const search = searchValue ? `&search=${searchValue}` : '';
 
-  React.useEffect(() => window.scrollTo(0, 0), []);
+  async function getPizzas() {
+    const search = searchValue ? `&search=${searchValue}` : '';
+    const order = sort.type[0] === '-' ? 'asc' : 'desc';
 
-  React.useEffect(() => {
-    if (isMounted.current) {
-      (async function () {
-        dispatch(setIsLoading(true));
-        const order = sort.type[0] === '-' ? 'asc' : 'desc';
-        const { data } = await axios.get(
-          `https://629f31168b939d3dc291db2d.mockapi.io/items?page=${currentPage}&limit=4&${
-            categoryId > 0 ? `category=${categoryId}` : ''
-          }${search}&sortBy=${sort.type.replace('-', '')}&order=${order}`,
-        );
-        setItems(data);
-        dispatch(setIsLoading(false));
-      })();
-    }
-  }, [categoryId, sort, searchValue, currentPage]);
-
-  // Если изменили параметры и был первый рендер.
-  React.useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        sortType: sort.type,
-        categoryId,
+    dispatch(
+      fetchPizzas({
+        sortType: sort.type.replace('-', ''),
+        order,
+        search,
         currentPage,
-      });
-      navigate(`?${queryString}`);
-    }
-    isMounted.current = true;
+        categoryId: categoryId > 0 ? `category=${categoryId}` : '',
+      }),
+    );
+  }
+
+  React.useEffect(() => {
+    (async () => {
+      await getPizzas();
+      // Если изменили параметры и был первый рендер.
+      if (isMounted.current) {
+        const queryString = qs.stringify({
+          sortType: sort.type,
+          categoryId,
+          currentPage,
+        });
+        navigate(`?${queryString}`);
+      }
+      isMounted.current = true;
+    })();
   }, [categoryId, sort, searchValue, currentPage]);
 
   // На первом рендере парсим URL-параметры в Redux, если есть.
   React.useEffect(() => {
+    window.scrollTo(0, 0);
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-
       const sort = options.find((obj) => obj.type === params.sortType);
+      if (!sort || !params.categoryId || !params.searchValue || !currentPage) {
+        navigate('/');
+        return;
+      }
       dispatch(
         setFilters({
           ...params,
@@ -82,13 +91,25 @@ export function Home() {
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
-          {isLoading
+          {status === 'loading'
             ? [...new Array(currentPage > 2 ? 2 : 4)].map((el, index) => {
                 return <Skeleton key={index} />;
               })
-            : items.map((item) => <Card {...item} key={item.id} />)}
+            : items.map((item) => (
+                <Link to={`/pizza/${item.id}`} key={item.id}>
+                  <Card {...item} />
+                </Link>
+              ))}
         </div>
-        {!isLoading && items.length === 0 && <NotFound />}
+        {status === 'success' && items.length === 0 && (
+          <NotFound description="К сожалению пицц не найдено" />
+        )}
+        {status === 'error' && (
+          <NotFound
+            title="Произошла ошибка"
+            description="При загрузке пицц, что-то пошло не так.."
+          />
+        )}
       </div>
       <Pagination />
     </>

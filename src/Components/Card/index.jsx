@@ -1,16 +1,36 @@
 import React from "react"
+import { useDispatch, useSelector } from "react-redux";
 
+
+import { addItem } from "../../redux/slices/cartSlice";
+import { selectCartItemById } from './../../redux/slices/cartSlice';
+
+const typesNames = ["тонкое", "традиционное"]
 
 export function Card({
+  id,
   imageUrl,
   name: title,
   price,
   sizes,
   types
 }) {
-  const typesNames = ["тонкое", "традиционное"]
+  const dispatch = useDispatch()
+  const cartItem = useSelector(selectCartItemById(id))
+  const addedCount = cartItem ? cartItem.count : 0
   const [activeType, setActiveType] = React.useState(types[0] === 1 ? 1 : 0); 
   const [activeSize, setActiveSize] = React.useState(0)
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typesNames[activeType],
+    size: sizes[activeSize]
+    }
+    dispatch(addItem(item))
+  }
   
   return (
     <div className="pizza-block__wrapper">
@@ -39,6 +59,7 @@ export function Card({
     <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
         <button className="button button--outline button--add"  
+        onClick={onClickAdd}
         >
             <svg
                 width="12"
@@ -53,7 +74,7 @@ export function Card({
                 />
             </svg>
             <span>Добавить</span>
-            <i>0</i>
+            {addedCount > 0 && <i>{addedCount}</i>}
         </button>
     </div>
 </div> 

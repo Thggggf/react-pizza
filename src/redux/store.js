@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import filter from "./slices/filterSlice"
-import homeStates from './slices/homeStatesSlice'
+import cart from './slices/cartSlice'
+import pizzas from './slices/pizzasSlice'
 export const store = configureStore({
   reducer: {
     filter,
-    homeStates,
+    cart,
+    pizzas
   },
 })
 export type RootState = ReturnType<typeof store.getState>

@@ -4,11 +4,16 @@
   margin: 0 auto;
   max-width: 750px;
   text-align: center;
+  @media(max-height:850px){
+    max-width: 550px;
+    padding: 50px 100px 100px 100px
+  }
   span {
     font-size: 64px;
   }
   .description {
     font-size: 20px;
+    margin-top: 8px;
   }
   
 }
