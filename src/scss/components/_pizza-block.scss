@@ -3,10 +3,12 @@
 .pizza-block {
   width: 280px;
   text-align: center;
+  
+  
 
   &__wrapper{
     display: flex;
-    justify-self: center;
+    justify-content: center;
   }
 
   &__image {

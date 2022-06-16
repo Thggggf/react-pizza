@@ -3,7 +3,12 @@ import React from 'react'
 
 import styles from "./NotFoundBlock.module.scss"
 
-const NotFoundBlock = ({
+
+type NotFoundBlockProps= {
+  description: string;
+  title: string;
+}
+const NotFoundBlock:React.FC<NotFoundBlockProps> = ({
   description,
   title
 }) => {

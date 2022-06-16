@@ -3,18 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import { addItem } from "../../redux/slices/cartSlice";
-import { selectCartItemById } from './../../redux/slices/cartSlice';
+import { selectCartItemById } from '../../redux/slices/cartSlice';
 
 const typesNames = ["тонкое", "традиционное"]
-
-export function Card({
+type CardProps = {
+  id: string;
+  imageUrl: string;
+  name: string;
+  price:number;
+  sizes: number[];
+  types: number[];
+}
+export const Card:React.FC<CardProps> = ({
   id,
   imageUrl,
   name: title,
   price,
   sizes,
   types
-}) {
+}) => {
   const dispatch = useDispatch()
   const cartItem = useSelector(selectCartItemById(id))
   const addedCount = cartItem ? cartItem.count : 0

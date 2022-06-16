@@ -21,9 +21,9 @@ import { Skeleton } from '../Components/Card/skeleton';
 import { AppContext } from '../Context.js';
 import Pagination from '../Components/Pagination';
 import { NotFound } from './NotFound';
-import { options } from './../Components/Sort';
+import { options } from '../Components/Sort';
 
-export function Home() {
+export const Home: React.FC  = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
@@ -36,6 +36,7 @@ export function Home() {
     const order = sort.type[0] === '-' ? 'asc' : 'desc';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         sortType: sort.type.replace('-', ''),
         order,
@@ -95,7 +96,7 @@ export function Home() {
             ? [...new Array(currentPage > 2 ? 2 : 4)].map((el, index) => {
                 return <Skeleton key={index} />;
               })
-            : items.map((item) => (
+            : items.map((item: any) => (
                 <Link to={`/pizza/${item.id}`} key={item.id}>
                   <Card {...item} />
                 </Link>

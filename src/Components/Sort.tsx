@@ -2,32 +2,39 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSort } from '../redux/slices/filterSlice';
-import { selectSort } from './../redux/slices/filterSlice';
+import { selectSort } from '../redux/slices/filterSlice';
 
-export const options = [
+type SortOption = {
+  title?: string;
+  name?: string;
+  type: string;  
+}
+export const options: SortOption[] = [
   { title: 'популярные', type: 'rating' },
   { title: 'дорогие', type: 'price' },
   { title: 'дешёвые', type: '-price' },
   { title: ' По алфавиту (А-Я)', type: '-name' },
   { title: 'По алфавиту (Я-А)', type: 'name' },
 ];
-
+type PopupClick = MouseEvent & {
+  path: Node[];
+}
 export function Sort() {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
-  const sortRef = React.useRef();
-  const labelRef = React.useRef();
-  const onOption = (obj) => {
+  const sortRef = React.useRef<HTMLDivElement>(null);
+  const labelRef = React.useRef<HTMLDivElement>(null);
+  const onOption = (obj: SortOption) => {
     setOpen(false);
     dispatch(setSort(obj));
   };
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      const clickInsideLabel = labelRef.current.contains(event.target)
-      if(!open && clickInsideLabel){
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as PopupClick
+      if(labelRef.current && !open && _event.path.includes(labelRef.current)){
         setOpen(true)
-      } else if (!event.path.includes(sortRef.current)) {
+      } else if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setOpen(false);
       }       
     };

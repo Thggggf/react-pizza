@@ -8,13 +8,13 @@ import { Category } from './Category';
 
 const categories = ['Все', 'Мясные', 'Вегетарианская', "Гриль", 'Острые', 'Закрытые'];
 
-export function Categories() {
+export const Categories: React.FC = () => {
   const dispatch = useDispatch();
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id:number) => {
     dispatch(setCurrentPage(1))
     dispatch(setCategoryId(id));
   };
-  const categoryId = useSelector((state) => state.filter.categoryId);
+  const categoryId = useSelector((state:any) => state.filter.categoryId);
 
   return (
     <div className="categories">
@@ -23,7 +23,7 @@ export function Categories() {
           <Category
             name={categoryName}
             index={index}
-            onClick={(id) => onChangeCategory(id)}
+            onClick={(id:number) => onChangeCategory(id)}
             isActive={categoryId === index}
             key={index}
           />
