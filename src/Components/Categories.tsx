@@ -1,21 +1,18 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-
-import { setCategoryId, setCurrentPage} from '../redux/slices/filterSlice'
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import { Category } from './Category';
 
+const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
-const categories = ['Все', 'Мясные', 'Вегетарианская', "Гриль", 'Острые', 'Закрытые'];
-
-export const Categories: React.FC = () => {
+export const Categories: React.FC = React.memo(() => {
   const dispatch = useDispatch();
-  const onChangeCategory = (id:number) => {
-    dispatch(setCurrentPage(1))
+  const onChangeCategory = React.useCallback((id: number) => {
+    dispatch(setCurrentPage(1));
     dispatch(setCategoryId(id));
-  };
-  const categoryId = useSelector((state:any) => state.filter.categoryId);
-
+  }, []);
+  const categoryId = useSelector((state: any) => state.filter.categoryId);
   return (
     <div className="categories">
       <ul>
@@ -23,7 +20,7 @@ export const Categories: React.FC = () => {
           <Category
             name={categoryName}
             index={index}
-            onClick={(id:number) => onChangeCategory(id)}
+            onClick={onChangeCategory}
             isActive={categoryId === index}
             key={index}
           />
@@ -31,4 +28,4 @@ export const Categories: React.FC = () => {
       </ul>
     </div>
   );
-}
+});

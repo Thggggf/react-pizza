@@ -21,13 +21,14 @@ const CartItem: React.FC<CartItemProps> = ({
   count,
   imageUrl
 }) => {
+  const item = {id,title,type,size,price,count,imageUrl}
   const dispatch = useDispatch()
   const onClickPlus = () => {
-    dispatch(addItem({id, price}))
+    dispatch(addItem({...item, count: 1}))
   }
   const onClickMinus = () => {
     dispatch(
-      removeItem({id, price})
+      removeItem({...item, count: 1})
     )
   }
   const onClearItem = ()=> {

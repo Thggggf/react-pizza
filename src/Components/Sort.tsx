@@ -3,13 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { setSort } from '../redux/slices/filterSlice';
 import { selectSort } from '../redux/slices/filterSlice';
+import { Sort as ISort} from "../redux/slices/filterSlice"
 
-type SortOption = {
-  title?: string;
-  name?: string;
-  type: string;  
-}
-export const options: SortOption[] = [
+
+export const options: ISort[] = [
   { title: 'популярные', type: 'rating' },
   { title: 'дорогие', type: 'price' },
   { title: 'дешёвые', type: '-price' },
@@ -19,13 +16,13 @@ export const options: SortOption[] = [
 type PopupClick = MouseEvent & {
   path: Node[];
 }
-export function Sort() {
+export const Sort: React.FC = React.memo(() => {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
   const sortRef = React.useRef<HTMLDivElement>(null);
   const labelRef = React.useRef<HTMLDivElement>(null);
-  const onOption = (obj: SortOption) => {
+  const onOption = (obj: ISort) => {
     setOpen(false);
     dispatch(setSort(obj));
   };
@@ -59,7 +56,7 @@ export function Sort() {
           />
         </svg>
         <b>Сначало:</b>
-        <span>{sort.name || "популярные"}</span>
+        <span>{sort.title || "популярные"}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -67,7 +64,7 @@ export function Sort() {
             {options.map((obj, optionId) => (
               <li
                 className={obj.type === sort.type ? 'active' : ''}
-                onClick={() => onOption({ name: obj.title, type: obj.type })}
+                onClick={() => onOption({ title: obj.title, type: obj.type })}
                 key={obj.type}>
                 {obj.title}
               </li>
@@ -78,3 +75,4 @@ export function Sort() {
     </div>
   );
 }
+)

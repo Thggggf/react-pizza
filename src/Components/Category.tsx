@@ -1,5 +1,5 @@
 import  React  from 'react';
-
+import useWhyDidYouUpdate from 'ahooks/lib/useWhyDidYouUpdate';
 type CategoryProps ={
   name: string;
   index: number;
@@ -7,7 +7,7 @@ type CategoryProps ={
   isActive: boolean;
 }
 
-export const Category:React.FC<CategoryProps> = ({
+export const Category:React.FC<CategoryProps> = React.memo( ({
   name,
   index,
   onClick,
@@ -17,4 +17,4 @@ export const Category:React.FC<CategoryProps> = ({
   onClick={() => onClick(index)}
   className = { isActive ? "active" : ''}
   >{name}</li>
-}
+})

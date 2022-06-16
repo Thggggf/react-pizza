@@ -4,14 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import { Status } from '../redux/slices/pizzasSlice';
+import { Sort as ISort } from '../redux/slices/filterSlice';
+import { FilterSliceState } from '../redux/slices/filterSlice';
 import {
   selectFilter,
   setCategoryId,
   setCurrentPage,
   setFilters,
 } from '../redux/slices/filterSlice';
-
+import { useAppDispatch } from '../redux/store';
 import { fetchPizzas, selectPizzasData } from '../redux/slices/pizzasSlice';
 
 import { Card } from '../Components/Card';
@@ -22,10 +24,11 @@ import { AppContext } from '../Context.js';
 import Pagination from '../Components/Pagination';
 import { NotFound } from './NotFound';
 import { options } from '../Components/Sort';
+import { CartItem } from '../redux/slices/cartSlice';
 
 export const Home: React.FC  = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 
   const { status, items } = useSelector(selectPizzasData);
@@ -68,17 +71,19 @@ export const Home: React.FC  = () => {
     window.scrollTo(0, 0);
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      const sort = options.find((obj) => obj.type === params.sortType);
+      const sort = options.find((obj) => obj.type === params.sortType)
       if (!sort || !params.categoryId || !params.searchValue || !currentPage) {
         navigate('/');
         return;
       }
       dispatch(
         setFilters({
-          ...params,
-          sort,
-        }),
-      );
+          searchValue: String(params.search) || "",
+          categoryId: Number( params.category),
+          sort: {title: sort.title, type : sort.type},
+          currentPage:Number(params.page),
+        }
+      ));
     }
   }, []);
 
@@ -92,20 +97,18 @@ export const Home: React.FC  = () => {
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
-          {status === 'loading'
+          {status === Status.LOADING
             ? [...new Array(currentPage > 2 ? 2 : 4)].map((el, index) => {
                 return <Skeleton key={index} />;
               })
-            : items.map((item: any) => (
-                <Link to={`/pizza/${item.id}`} key={item.id}>
-                  <Card {...item} />
-                </Link>
+            : items.map((item) => (                
+                  <Card {...item}  key={item.id}/>        
               ))}
         </div>
-        {status === 'success' && items.length === 0 && (
+        {status === Status.SUCCESS && items.length === 0 && (
           <NotFound description="К сожалению пицц не найдено" />
         )}
-        {status === 'error' && (
+        {status === Status.ERROR && (
           <NotFound
             title="Произошла ошибка"
             description="При загрузке пицц, что-то пошло не так.."
