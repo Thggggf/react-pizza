@@ -1,10 +1,18 @@
 import React from 'react';
 import { useSelector } from "react-redux"
-import { selectCart } from '../redux/slices/cartSlice';
+import { selectCart } from '../redux/cart/selectors';
 
 const CartVidget = () => {
   const {items, totalPrice} = useSelector(selectCart)
   const totalCount = items.reduce((sum:number, item: any) => sum + item.count, 0)
+  const isMounted = React.useRef(false)
+  React.useEffect(() => {
+    if(isMounted.current) {
+      const json = JSON.stringify(items)
+      localStorage.setItem("cartItems", json)
+    }
+    isMounted.current = true;
+  }, [items])
   return (
     <>
       <span>{totalPrice} ₽</span>

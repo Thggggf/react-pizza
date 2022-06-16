@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setSort } from '../redux/slices/filterSlice';
-import { selectSort } from '../redux/slices/filterSlice';
-import { Sort as ISort} from "../redux/slices/filterSlice"
+import { setSort } from '../redux/filter/slice';
+import { selectSort } from '../redux/filter/selectors';
+import { Sort as ISort} from "../redux/filter/types"
 
 
 export const options: ISort[] = [

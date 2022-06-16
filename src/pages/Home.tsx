@@ -4,17 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { Status } from '../redux/slices/pizzasSlice';
-import { Sort as ISort } from '../redux/slices/filterSlice';
-import { FilterSliceState } from '../redux/slices/filterSlice';
-import {
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from '../redux/slices/filterSlice';
+import { Status } from '../redux/pizza/types';
+import { Sort as ISort } from '../redux/filter/types'
+import { FilterSliceState } from '../redux/filter/types';
+import {selectFilter} from '../redux/filter/selectors';
+import {  setCategoryId,setCurrentPage,setFilters} from "../redux/filter/slice"
 import { useAppDispatch } from '../redux/store';
-import { fetchPizzas, selectPizzasData } from '../redux/slices/pizzasSlice';
+import {selectPizzasData } from '../redux/pizza/selectors';
+import { fetchPizzas } from '../redux/pizza/asyncActions';
 
 import { Card } from '../Components/Card';
 import { Categories } from '../Components/Categories';
@@ -24,7 +21,7 @@ import { AppContext } from '../Context.js';
 import Pagination from '../Components/Pagination';
 import { NotFound } from './NotFound';
 import { options } from '../Components/Sort';
-import { CartItem } from '../redux/slices/cartSlice';
+import { CartItem } from '../redux/cart/types';
 
 export const Home: React.FC  = () => {
   const navigate = useNavigate();
