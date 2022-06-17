@@ -1,10 +1,7 @@
 import React from "react"
 import {Link, useLocation} from "react-router-dom"
 
-import Label from "./Label"
-import CartVidget from "./CartVidget"
-import Search from "./Search"
-
+import {Label,CartVidget,Search} from "../Components"
 
 
 export const Header: React.FC = () => {

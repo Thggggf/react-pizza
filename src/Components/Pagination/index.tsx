@@ -7,12 +7,12 @@ import { setCurrentPage } from '../../redux/filter/slice';
 
 import styles from './Pagination.module.scss';
 
-const Pagination: React.FC = () => {
+export const Pagination: React.FC = () => {
   const dispatch = useDispatch()
   const currentPage = useSelector((state:any) => state.filter.currentPage)
 
   
-  const onChangePage = (number:number) => dispatch(setCurrentPage(number));
+ const onChangePage = (number:number) => dispatch(setCurrentPage(number));
   return (
     <ReactPaginate
       className={styles.root}
@@ -27,4 +27,4 @@ const Pagination: React.FC = () => {
   );
 };
 
-export default Pagination;
+

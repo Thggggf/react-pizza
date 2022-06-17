@@ -1,12 +1,12 @@
 import React from "react"
 
-import NotFoundBlock from "../Components/NotFoundBlock"
+import {NotFoundBlock} from "../Components"
 
 type NotFoundProps = {
   description?: string;
   title?: string;
 }
-export const NotFound: React.FC<NotFoundProps> = ({
+const NotFound: React.FC<NotFoundProps> = ({
   description = "К сожалению данная страница отсутствует",
   title = "Ничего не найдено"
 }) =>  {
@@ -17,3 +17,4 @@ export const NotFound: React.FC<NotFoundProps> = ({
     
   )
 }
+export default NotFound

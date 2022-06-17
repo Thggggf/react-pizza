@@ -12,22 +12,19 @@ import {  setCategoryId,setCurrentPage,setFilters} from "../redux/filter/slice"
 import { useAppDispatch } from '../redux/store';
 import {selectPizzasData } from '../redux/pizza/selectors';
 import { fetchPizzas } from '../redux/pizza/asyncActions';
-
-import { Card } from '../Components/Card';
-import { Categories } from '../Components/Categories';
-import { Sort } from '../Components/Sort';
-import { Skeleton } from '../Components/Card/skeleton';
 import { AppContext } from '../Context.js';
-import Pagination from '../Components/Pagination';
-import { NotFound } from './NotFound';
-import { options } from '../Components/Sort';
-import { CartItem } from '../redux/cart/types';
+
+import {options} from "../Components"
+import {Card,Categories,Sort,Skeleton,CartItem,Pagination} from "../Components"
+
+import  NotFound  from './NotFound';
+
 
 export const Home: React.FC  = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
-
+  
   const { status, items } = useSelector(selectPizzasData);
   const isMounted = React.useRef(false);
 

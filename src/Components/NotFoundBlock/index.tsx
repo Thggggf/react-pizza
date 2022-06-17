@@ -8,7 +8,7 @@ type NotFoundBlockProps= {
   description: string;
   title: string;
 }
-const NotFoundBlock:React.FC<NotFoundBlockProps> = ({
+export const NotFoundBlock:React.FC<NotFoundBlockProps> = ({
   description,
   title
 }) => {
@@ -25,4 +25,4 @@ const NotFoundBlock:React.FC<NotFoundBlockProps> = ({
   )
 }
 
-export default NotFoundBlock
+

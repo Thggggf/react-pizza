@@ -1,6 +1,6 @@
 import React from 'react';
 import logoSvg from "../assets/img/pizza-logo.svg"
-const Label: React.FC = () => {
+export const Label: React.FC = () => {
 
   return (
     <div className="header__logo">
@@ -13,4 +13,4 @@ const Label: React.FC = () => {
   );
 };
 
-export default Label;
+
