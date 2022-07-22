@@ -4,6 +4,16 @@
   border-bottom: 1px solid $gray-line;
   padding: 0 40px;
   padding-bottom: 15px;
+  @media(max-width: 390px){
+    padding: 0 30px;
+  }
+  @media(max-width: 368px){
+    padding: 0 18px;
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
   
   li {
     display: inline-block;
