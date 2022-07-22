@@ -20,6 +20,7 @@ body {
   @media(max-width: 360px){
     width: calc(100vw - 25px)
   }
+  
 }
 
 .content {
@@ -115,12 +116,18 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media(max-width: 480px){
+      flex-wrap: wrap;
+    }
   }
 
   .content__title {
     display: flex;
     align-items: center;
     font-size: 32px;
+    @media(max-width: 670px){
+      margin-bottom: 9px;
+    }
 
     svg {
       position: relative;
@@ -176,16 +183,39 @@ body {
     border-top: 1px solid $gray-line;
     padding-top: 30px;
     margin-top: 30px;
+    @media(max-width: 670px){
+      display: flex;
+      flex-wrap: wrap;
+      justify-self: center;
+    }
+    &__mobile-wrapper{
+      display: flex;
+
+    @media(max-width: 670px){
+      flex-wrap: wrap;     
+        width: 100%;
+        margin-bottom: 20px;
+        
+      }
+    }
 
     &-img {
       display: flex;
       align-items: center;
       margin-right: 15px;
-      width: 10%;
+      @media(max-width:670px){
+        margin-right: 10%;
+        width: 100%;
+        justify-content: center;
+      }
 
       img {
-        width: 80px;
         height: 80px;
+        width: 80px;
+        @media(max-width:670px){
+          width: 50%;
+          height: auto;
+        }
       }
     }
 
@@ -193,7 +223,9 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 40%;
+      @media(max-width: 670px){
+        margin-left: 10%;
+      }
 
       h3 {
         font-weight: bold;
@@ -212,7 +244,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 13%;
+      width: 100px;
 
       &-minus {
         svg {
@@ -253,6 +285,9 @@ body {
       align-items: center;
       justify-content: center;
       width: 33%;
+      @media(max-width: 670px){
+        margin-left: 15%;
+      }
 
       b {
         font-weight: bold;
@@ -265,7 +300,8 @@ body {
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      width: 4%;
+     
+
 
       .button {
         border-color: darken($color: $gray-line, $amount: 10);
@@ -300,6 +336,9 @@ body {
     &-details {
       display: flex;
       justify-content: space-between;
+      @media(max-width: 670px){
+        flex-wrap: wrap;
+      }
 
       span {
         font-size: 22px;
@@ -322,6 +361,12 @@ body {
         align-items: center;
         justify-content: center;
         width: 210px;
+        @media(max-width: 670px){
+          padding: 5;
+          display: flex;
+          align-items: center;
+        }
+        
 
         border-color: darken($color: $gray-line, $amount: 10);
 
@@ -354,6 +399,11 @@ body {
         font-weight: 600;
         width: 210px;
         padding: 16px;
+        @media(max-width: 670px){
+          padding: 0;
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }
@@ -369,6 +419,9 @@ body {
       font-size: 36px;
       font-weight: 700;
       margin-bottom: 15px;
+          @media(max-width: 768px){
+      line-height: 1.15em;
+    }
     }
 
     p {
@@ -387,6 +440,9 @@ body {
       display: block;
       width: 300px;
       margin: 45px auto 60px;
+      @media(max-width: 768px){
+        width: 85%;
+      }
     }
 
     .button--black {
